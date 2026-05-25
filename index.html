@@ -2,147 +2,207 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Sunset — Hyperframe Animation</title>
+<title>Sunset — Therapeutic Hyperframe</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
     height: 100%;
-    background: radial-gradient(ellipse at center, #243043 0%, #0d141d 100%);
+    background: radial-gradient(ellipse at center, #2a3647 0%, #0d141d 80%);
     font-family: Georgia, serif;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #f0e6d2;
   }
 
   .stage {
     position: relative;
-    width: min(1140px, 95vw);
-    aspect-ratio: 1140 / 220;
-    perspective: 1200px;
+    width: min(440px, 80vmin);
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 
-  .frame {
+  /* concentric breathing rings — the "hyperframes" */
+  .ring {
     position: absolute;
     inset: 0;
-    border-radius: 6px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-    transform-origin: center;
+    border-radius: 50%;
+    border: 1px solid rgba(240, 230, 210, 0.25);
     opacity: 0;
-    overflow: hidden;
+    animation: breathe 6s ease-in-out infinite;
   }
-  .frame svg { width: 100%; height: 100%; display: block; }
+  .ring:nth-child(1) { animation-delay: 0s; }
+  .ring:nth-child(2) { animation-delay: 1.5s; }
+  .ring:nth-child(3) { animation-delay: 3.0s; }
+  .ring:nth-child(4) { animation-delay: 4.5s; }
 
-  .frame:nth-child(1) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.00s forwards; filter: blur(8px) hue-rotate(-20deg); }
-  .frame:nth-child(2) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.12s forwards; filter: blur(6px) hue-rotate(-10deg); }
-  .frame:nth-child(3) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.24s forwards; filter: blur(4px); }
-  .frame:nth-child(4) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.36s forwards; filter: blur(2px) hue-rotate(8deg); }
-  .frame.hero {
-    animation: settle 1.6s cubic-bezier(.2,.7,.2,1) 0.55s forwards,
-               drift 9s ease-in-out 2.2s infinite;
-    z-index: 10;
-  }
-
-  @keyframes hyper {
-    0%   { opacity: 0; transform: translate3d(-220px, 30px, -400px) rotateY(-22deg) scale(.85); }
-    55%  { opacity: 0.55; }
-    100% { opacity: 0; transform: translate3d(180px, -20px, 200px) rotateY(14deg) scale(1.06); }
-  }
-  @keyframes settle {
-    0%   { opacity: 0; transform: translate3d(0, 60px, -300px) scale(.92); filter: blur(14px) brightness(1.4); }
-    60%  { opacity: 1; filter: blur(0) brightness(1.08); }
-    100% { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0) brightness(1); }
-  }
-  @keyframes drift {
-    0%, 100% { transform: translate3d(0,0,0) scale(1); }
-    50%      { transform: translate3d(0, -6px, 0) scale(1.012); }
+  @keyframes breathe {
+    0%   { transform: scale(0.55); opacity: 0; border-color: rgba(240,230,210,0.45); }
+    40%  { opacity: 0.6; }
+    100% { transform: scale(1.35); opacity: 0; border-color: rgba(240,230,210,0.05); }
   }
 
-  .stage::after {
-    content: "";
+  .logo {
+    position: relative;
+    width: 70%;
+    height: 70%;
+    animation: float 6s ease-in-out infinite;
+    filter: drop-shadow(0 0 22px rgba(240,230,210,0.15));
+    z-index: 5;
+  }
+  .logo svg { width: 100%; height: 100%; display: block; }
+
+  @keyframes float {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50%      { transform: scale(1.04) translateY(-4px); }
+  }
+
+  /* mane shimmer when neighing */
+  .logo.neigh { animation: float 6s ease-in-out infinite, neigh 1.6s ease-out; }
+  @keyframes neigh {
+    0%   { filter: drop-shadow(0 0 22px rgba(240,230,210,0.15)); }
+    20%  { transform: scale(1.08) translateY(-8px) rotate(-2deg); filter: drop-shadow(0 0 40px rgba(255,230,180,0.55)); }
+    60%  { transform: scale(1.02) translateY(-2px) rotate(1deg); }
+    100% { transform: scale(1) translateY(0) rotate(0); filter: drop-shadow(0 0 22px rgba(240,230,210,0.15)); }
+  }
+
+  .hint {
     position: absolute;
-    inset: 0;
-    border-radius: 6px;
-    background: linear-gradient(110deg,
-      transparent 30%,
-      rgba(255,236,200,0.18) 45%,
-      rgba(255,236,200,0.35) 50%,
-      rgba(255,236,200,0.18) 55%,
-      transparent 70%);
-    transform: translateX(-110%);
-    animation: sweep 4.5s ease-in-out 2.0s infinite;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    z-index: 20;
-  }
-  @keyframes sweep {
-    0%, 20%  { transform: translateX(-110%); }
-    55%      { transform: translateX(110%); }
-    100%     { transform: translateX(110%); }
-  }
-
-  .caption {
-    position: absolute;
-    bottom: -42px;
+    bottom: -56px;
     left: 0; right: 0;
     text-align: center;
-    color: #f0e6d2;
-    letter-spacing: 0.4em;
-    font-size: 12px;
-    opacity: 0;
-    animation: fade 1.2s ease 2.0s forwards;
+    letter-spacing: 0.35em;
+    font-size: 11px;
+    opacity: 0.55;
   }
-  @keyframes fade { to { opacity: .85; } }
 </style>
 </head>
 <body>
-  <div class="stage">
-    <!-- 4 ghost frames + 1 hero, all using the same inline SVG banner -->
-    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stop-color="#2b3a4f"/>
-          <stop offset="100%" stop-color="#1a2330"/>
-        </linearGradient>
-      </defs>
-      <rect width="1140" height="220" fill="url(#bg)"/>
-      <g transform="translate(770, 110)">
-        <circle r="48" fill="none" stroke="#f0e6d2" stroke-width="2"/>
-        <g transform="translate(-26,-22) scale(0.9)" fill="#f0e6d2">
-          <path d="M10,40 C12,28 20,22 28,22 C30,16 36,12 42,14 C44,10 48,8 52,10 L56,6 L58,12 C62,14 64,18 62,22 C66,26 66,32 62,36 C58,40 50,42 44,40 C42,46 36,48 30,46 C24,48 16,46 12,42 Z" />
-          <path d="M28,40 L26,52 L30,52 L32,42 Z M40,40 L40,52 L44,52 L44,42 Z" />
+  <div class="stage" id="stage" title="click for a gentle neigh">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+
+    <div class="logo" id="logo">
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="bg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#2f3d52"/>
+            <stop offset="100%" stop-color="#1a2330"/>
+          </radialGradient>
+        </defs>
+        <circle cx="100" cy="100" r="96" fill="url(#bg)"/>
+        <circle cx="100" cy="100" r="92" fill="none" stroke="#f0e6d2" stroke-width="2"/>
+
+        <!-- ground hint -->
+        <path d="M30,140 Q100,128 170,142" stroke="#f0e6d2" stroke-width="1" fill="none" opacity="0.35"/>
+
+        <!-- horse silhouette (stylized) -->
+        <g fill="#f0e6d2" transform="translate(40,55)">
+          <!-- body -->
+          <path d="M20,55
+                   C20,42 32,34 48,34
+                   C58,30 72,28 84,32
+                   C92,22 100,18 108,22
+                   C112,16 118,14 122,18
+                   L126,12 L128,20
+                   C132,22 132,28 128,32
+                   C130,38 126,44 118,46
+                   C116,52 110,56 104,54
+                   L100,66 L96,80 L92,80 L94,66 L80,62
+                   L74,80 L70,80 L72,62
+                   L50,60 L46,80 L42,80 L44,58
+                   L28,60 L24,80 L20,80 L22,58 Z"/>
+          <!-- mane streaks -->
+          <path d="M108,22 C112,12 116,8 122,8 L120,18" stroke="#f0e6d2" stroke-width="1.2" fill="none" opacity="0.7"/>
+          <path d="M112,26 C118,18 124,16 128,18" stroke="#f0e6d2" stroke-width="1" fill="none" opacity="0.5"/>
+          <!-- eye (negative) -->
+          <circle cx="118" cy="24" r="0.9" fill="#1a2330"/>
         </g>
-      </g>
-      <text x="840" y="125" font-family="Georgia, serif" font-size="46" letter-spacing="6" fill="#f0e6d2">SUNSET</text>
-    </svg></div>
-    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
-    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
-    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
-    <div class="frame hero"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
-    <div class="caption">RIDE INTO THE SUNSET</div>
+      </svg>
+    </div>
+
+    <div class="hint">CLICK FOR A GENTLE NEIGH</div>
   </div>
 
-  <svg width="0" height="0" style="position:absolute">
-    <defs>
-      <symbol id="banner" viewBox="0 0 1140 220">
-        <defs>
-          <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stop-color="#2b3a4f"/>
-            <stop offset="100%" stop-color="#1a2330"/>
-          </linearGradient>
-        </defs>
-        <rect width="1140" height="220" fill="url(#bg2)"/>
-        <g transform="translate(770, 110)">
-          <circle r="48" fill="none" stroke="#f0e6d2" stroke-width="2"/>
-          <g transform="translate(-26,-22) scale(0.9)" fill="#f0e6d2">
-            <path d="M10,40 C12,28 20,22 28,22 C30,16 36,12 42,14 C44,10 48,8 52,10 L56,6 L58,12 C62,14 64,18 62,22 C66,26 66,32 62,36 C58,40 50,42 44,40 C42,46 36,48 30,46 C24,48 16,46 12,42 Z" />
-            <path d="M28,40 L26,52 L30,52 L32,42 Z M40,40 L40,52 L44,52 L44,42 Z" />
-          </g>
-        </g>
-        <text x="840" y="125" font-family="Georgia, serif" font-size="46" letter-spacing="6" fill="#f0e6d2">SUNSET</text>
-      </symbol>
-    </defs>
-  </svg>
+<script>
+  // Synthesize a soft horse-neigh using Web Audio API.
+  // A descending whinny: rapid pitch wobble + breathy noise tail.
+  const stage = document.getElementById('stage');
+  const logo  = document.getElementById('logo');
+  let ctx;
+
+  function neigh() {
+    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+    const t0 = ctx.currentTime;
+    const dur = 1.4;
+
+    // Tonal whinny — sawtooth with vibrato, descending
+    const osc = ctx.createOscillator();
+    const oscGain = ctx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(720, t0);
+    osc.frequency.exponentialRampToValueAtTime(620, t0 + 0.15);
+    osc.frequency.exponentialRampToValueAtTime(480, t0 + 0.55);
+    osc.frequency.exponentialRampToValueAtTime(300, t0 + dur);
+
+    // vibrato
+    const lfo = ctx.createOscillator();
+    const lfoGain = ctx.createGain();
+    lfo.frequency.value = 22;
+    lfoGain.gain.value = 35;
+    lfo.connect(lfoGain).connect(osc.frequency);
+
+    // formant-ish bandpass to soften the saw
+    const bp = ctx.createBiquadFilter();
+    bp.type = 'bandpass';
+    bp.frequency.value = 900;
+    bp.Q.value = 4;
+
+    oscGain.gain.setValueAtTime(0, t0);
+    oscGain.gain.linearRampToValueAtTime(0.18, t0 + 0.05);
+    oscGain.gain.linearRampToValueAtTime(0.22, t0 + 0.4);
+    oscGain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+    osc.connect(bp).connect(oscGain).connect(ctx.destination);
+
+    // breath noise tail
+    const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+    const data = noiseBuf.getChannelData(0);
+    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+    const noise = ctx.createBufferSource();
+    noise.buffer = noiseBuf;
+    const nFilt = ctx.createBiquadFilter();
+    nFilt.type = 'highpass';
+    nFilt.frequency.value = 1200;
+    const nGain = ctx.createGain();
+    nGain.gain.setValueAtTime(0, t0);
+    nGain.gain.linearRampToValueAtTime(0.06, t0 + 0.1);
+    nGain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    noise.connect(nFilt).connect(nGain).connect(ctx.destination);
+
+    osc.start(t0); lfo.start(t0); noise.start(t0);
+    osc.stop(t0 + dur + 0.05);
+    lfo.stop(t0 + dur + 0.05);
+    noise.stop(t0 + dur + 0.05);
+
+    // visual reaction
+    logo.classList.remove('neigh');
+    void logo.offsetWidth;
+    logo.classList.add('neigh');
+  }
+
+  stage.addEventListener('click', neigh);
+  // a gentle, automatic neigh every 12s
+  setInterval(neigh, 12000);
+  // first neigh after a short pause (requires user gesture on some browsers)
+  window.addEventListener('load', () => setTimeout(() => { try { neigh(); } catch(e){} }, 1500));
+</script>
 </body>
 </html>
