@@ -97,41 +97,13 @@
     100% { opacity: 0; transform: scale(1.04); filter: blur(4px); }
   }
 
-  /* elegant vertical sweep of light across the lockup */
-  .sweep {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-    mix-blend-mode: overlay;
-  }
-  .sweep::after {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 30%;
-    left: -40%;
-    background: linear-gradient(100deg,
-      transparent 0%,
-      rgba(255,255,255,0.0) 30%,
-      rgba(255,255,255,0.85) 50%,
-      rgba(255,255,255,0.0) 70%,
-      transparent 100%);
-    animation: sweep 2.4s cubic-bezier(.4,.0,.2,1) 2.6s forwards;
-    filter: blur(2px);
-  }
-  @keyframes sweep {
-    0%   { left: -40%; }
-    100% { left: 110%; }
-  }
-
-/* final fade to white before redirect */
+  /* final fade — same color as the page so no rectangle is visible */
   .veil {
     position: fixed; inset: 0;
-    background: #fff;
+    background: var(--bg);
     opacity: 0;
     pointer-events: none;
-    animation: veil 1.2s ease-in 5.4s forwards;
+    animation: veil 1.4s ease-in-out 5.0s forwards;
     z-index: 10;
   }
   @keyframes veil { to { opacity: 1; } }
@@ -145,7 +117,6 @@
 
     <div class="logo">
       <img src="Sunset-logo.png" alt="Sunset" />
-      <div class="sweep"></div>
     </div>
 
     <span class="rule bottom"></span>
