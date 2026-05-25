@@ -30,9 +30,7 @@
     padding: 22px 40px;
   }
   .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
     font-family: 'Didot', 'Bodoni 72', Georgia, serif;
     letter-spacing: 0.32em;
     font-size: 18px;
@@ -47,36 +45,28 @@
   }
   nav ul { display: flex; list-style: none; gap: 32px; }
   nav a {
-    color: var(--ink);
-    text-decoration: none;
+    color: var(--ink); text-decoration: none;
     font-family: Inter, system-ui, sans-serif;
-    font-size: 14px;
-    opacity: 0.85;
+    font-size: 14px; opacity: 0.85;
   }
   .header-cta { display: flex; align-items: center; gap: 22px; }
   .header-cta a.login {
-    color: var(--ink);
-    font-family: Inter, system-ui, sans-serif;
-    font-size: 14px;
-    text-decoration: none;
+    color: var(--ink); text-decoration: none;
+    font-family: Inter, system-ui, sans-serif; font-size: 14px;
   }
   .btn {
-    background: var(--btn);
-    color: #fff;
-    border: 0;
+    background: var(--btn); color: #fff; border: 0;
     border-radius: 999px;
     padding: 12px 22px;
     font-family: Inter, system-ui, sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
+    font-size: 14px; cursor: pointer;
+    text-decoration: none; display: inline-block;
   }
 
   /* ——— hero ——— */
   .hero { text-align: center; padding: 90px 24px 60px; }
   .hero h1 {
-    font-family: 'Didot', 'Bodoni 72', 'Georgia', serif;
+    font-family: 'Didot', 'Bodoni 72', Georgia, serif;
     font-weight: 400;
     font-size: clamp(40px, 6vw, 76px);
     line-height: 1.05;
@@ -92,15 +82,114 @@
   }
   .hero .btn { padding: 16px 30px; font-size: 15px; }
 
-  /* ——— logo wheel ——— */
-  .wheel { padding: 80px 0 100px; }
+  /* ——— investors row ——— */
+  .row {
+    padding: 60px 0 40px;
+  }
+  .row h2 {
+    text-align: center;
+    font-family: 'Didot', 'Bodoni 72', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(20px, 2.4vw, 28px);
+    color: #4b4a47;
+    margin-bottom: 36px;
+    padding: 0 24px;
+  }
+  .row h2 b { color: var(--ink); font-weight: 500; }
+
+  .static-grid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .static-grid .card {
+    flex: 0 0 auto;
+    width: 180px;
+    height: 130px;
+    background: var(--card);
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 22px;
+    font-family: Inter, 'Helvetica Neue', sans-serif;
+    color: #4d4d4d;
+    text-align: center;
+  }
+
+  /* investor mark stylings */
+  .inv-yc {
+    width: 44px; height: 44px;
+    background: #4d4d4d; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700; font-size: 26px;
+  }
+  .inv-text {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 16px; letter-spacing: 0.02em;
+    line-height: 1.1; color: #3a3a3a; font-weight: 600;
+  }
+  .inv-text.small { font-size: 14px; }
+  .inv-sequoia {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: 0.22em;
+    font-weight: 600; font-size: 16px;
+    color: #3a3a3a;
+  }
+  .inv-accel {
+    font-family: 'Didot', 'Bodoni 72', Georgia, serif;
+    font-style: italic; font-size: 28px;
+    color: #3a3a3a;
+  }
+  .inv-gc {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px; letter-spacing: 0.18em; color: #3a3a3a;
+  }
+  .inv-gc .g {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #3a3a3a; color: #efeae0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px;
+  }
+  .inv-svangel {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #3a3a3a;
+  }
+  .inv-svangel .halo {
+    width: 36px; height: 12px; border-radius: 50%;
+    border: 1.5px solid #3a3a3a; transform: rotate(-12deg);
+  }
+  .inv-index {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    color: #3a3a3a; font-size: 14px;
+  }
+  .inv-index .bars {
+    display: flex; flex-direction: column; gap: 2px;
+  }
+  .inv-index .bars span {
+    display: block; height: 2px; background: #3a3a3a;
+  }
+  .inv-index .bars span:nth-child(1) { width: 18px; }
+  .inv-index .bars span:nth-child(2) { width: 14px; }
+  .inv-index .bars span:nth-child(3) { width: 10px; }
+
+  /* ——— partner wheel (under investors) ——— */
+  .wheel { padding: 40px 0 100px; }
   .wheel h2 {
     text-align: center;
     font-family: 'Didot', 'Bodoni 72', Georgia, serif;
     font-weight: 400;
-    font-size: clamp(20px, 2.4vw, 30px);
+    font-size: clamp(20px, 2.4vw, 28px);
     color: #4b4a47;
-    margin-bottom: 42px;
+    margin-bottom: 36px;
     padding: 0 24px;
   }
   .wheel h2 b { color: var(--ink); font-weight: 500; }
@@ -112,8 +201,7 @@
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
   }
   .track {
-    display: flex;
-    gap: 22px;
+    display: flex; gap: 22px;
     width: max-content;
     animation: slide 42s linear infinite;
   }
@@ -123,37 +211,25 @@
     to   { transform: translateX(-50%); }
   }
 
-  .card {
+  .partner {
     flex: 0 0 auto;
-    width: 240px;
-    height: 200px;
+    width: 240px; height: 200px;
     background: var(--card);
     border-radius: 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 22px;
-    gap: 14px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 22px; gap: 14px;
   }
-  .card .logo-img {
-    flex: 1;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .partner .logo-img {
+    flex: 1; width: 100%;
+    display: flex; align-items: center; justify-content: center;
     min-height: 0;
   }
-  .card img {
-    max-width: 100%;
-    max-height: 100%;
+  .partner img {
+    max-width: 100%; max-height: 100%;
     object-fit: contain;
-    filter: grayscale(1) contrast(0.9);
-    opacity: 0.85;
-    transition: filter .3s ease, opacity .3s ease;
   }
-  .card:hover img { filter: grayscale(0); opacity: 1; }
-  .card .name {
+  .partner .name {
     font-family: Inter, system-ui, sans-serif;
     font-size: 13px;
     letter-spacing: 0.08em;
@@ -173,7 +249,8 @@
 
   @media (max-width: 720px) {
     nav, .header-cta a.login { display: none; }
-    .card { width: 180px; height: 170px; padding: 18px; }
+    .partner { width: 180px; height: 170px; padding: 18px; }
+    .static-grid .card { width: 140px; height: 110px; }
   }
 </style>
 </head>
@@ -204,9 +281,23 @@
   <a class="btn" href="https://sunsethq.com">Get Started</a>
 </section>
 
+<!-- Investors row -->
+<section class="row">
+  <h2>Redistributed <b>$100s of millions</b> to the world's best investors</h2>
+  <div class="static-grid">
+    <div class="card"><div class="inv-yc">Y</div></div>
+    <div class="card"><div class="inv-text">andreessen.<br/>horowitz</div></div>
+    <div class="card"><div class="inv-sequoia">SEQUOIA</div></div>
+    <div class="card"><div class="inv-accel">Accel</div></div>
+    <div class="card"><div class="inv-gc">GENERAL <span class="g">G</span> CATALYST</div></div>
+    <div class="card"><div class="inv-svangel"><span class="halo"></span><span>SVAngel</span></div></div>
+    <div class="card"><div class="inv-index"><span class="bars"><span></span><span></span><span></span></span>Index Ventures</div></div>
+  </div>
+</section>
+
+<!-- Partner wheel (under investors) -->
 <section class="wheel">
   <h2>Trusted by founders from <b>industry-leading companies</b></h2>
-
   <div class="marquee">
     <div class="track" id="track"></div>
   </div>
@@ -231,7 +322,7 @@
   const track = document.getElementById('track');
   const sequence = [...partners, ...partners];
   track.innerHTML = sequence.map(p => `
-    <div class="card">
+    <div class="partner">
       <div class="logo-img"><img src="${p.src}" alt="${p.name}" loading="lazy"/></div>
       <div class="name">${p.name}</div>
     </div>
