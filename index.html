@@ -4,17 +4,12 @@
 <meta charset="UTF-8" />
 <title>Sunset — Hyperframe Animation</title>
 <style>
-  :root {
-    --bg: #1a2330;
-    --accent: #f0e6d2;
-  }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
     height: 100%;
     background: radial-gradient(ellipse at center, #243043 0%, #0d141d 100%);
-    font-family: 'Georgia', serif;
+    font-family: Georgia, serif;
     overflow: hidden;
     display: flex;
     align-items: center;
@@ -31,16 +26,14 @@
   .frame {
     position: absolute;
     inset: 0;
-    background-image: url('sunset-banner.png');
-    background-size: cover;
-    background-position: center;
     border-radius: 6px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.55);
     transform-origin: center;
     opacity: 0;
+    overflow: hidden;
   }
+  .frame svg { width: 100%; height: 100%; display: block; }
 
-  /* hyperframe stack — each frame fires in sequence, then the hero settles in */
   .frame:nth-child(1) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.00s forwards; filter: blur(8px) hue-rotate(-20deg); }
   .frame:nth-child(2) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.12s forwards; filter: blur(6px) hue-rotate(-10deg); }
   .frame:nth-child(3) { animation: hyper 2.4s cubic-bezier(.2,.7,.2,1) 0.24s forwards; filter: blur(4px); }
@@ -56,19 +49,16 @@
     55%  { opacity: 0.55; }
     100% { opacity: 0; transform: translate3d(180px, -20px, 200px) rotateY(14deg) scale(1.06); }
   }
-
   @keyframes settle {
     0%   { opacity: 0; transform: translate3d(0, 60px, -300px) scale(.92); filter: blur(14px) brightness(1.4); }
     60%  { opacity: 1; filter: blur(0) brightness(1.08); }
     100% { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0) brightness(1); }
   }
-
   @keyframes drift {
     0%, 100% { transform: translate3d(0,0,0) scale(1); }
     50%      { transform: translate3d(0, -6px, 0) scale(1.012); }
   }
 
-  /* sweep of light across the hero once it lands */
   .stage::after {
     content: "";
     position: absolute;
@@ -86,7 +76,6 @@
     mix-blend-mode: screen;
     z-index: 20;
   }
-
   @keyframes sweep {
     0%, 20%  { transform: translateX(-110%); }
     55%      { transform: translateX(110%); }
@@ -96,10 +85,9 @@
   .caption {
     position: absolute;
     bottom: -42px;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     text-align: center;
-    color: var(--accent);
+    color: #f0e6d2;
     letter-spacing: 0.4em;
     font-size: 12px;
     opacity: 0;
@@ -110,12 +98,51 @@
 </head>
 <body>
   <div class="stage">
-    <div class="frame"></div>
-    <div class="frame"></div>
-    <div class="frame"></div>
-    <div class="frame"></div>
-    <div class="frame hero"></div>
+    <!-- 4 ghost frames + 1 hero, all using the same inline SVG banner -->
+    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#2b3a4f"/>
+          <stop offset="100%" stop-color="#1a2330"/>
+        </linearGradient>
+      </defs>
+      <rect width="1140" height="220" fill="url(#bg)"/>
+      <g transform="translate(770, 110)">
+        <circle r="48" fill="none" stroke="#f0e6d2" stroke-width="2"/>
+        <g transform="translate(-26,-22) scale(0.9)" fill="#f0e6d2">
+          <path d="M10,40 C12,28 20,22 28,22 C30,16 36,12 42,14 C44,10 48,8 52,10 L56,6 L58,12 C62,14 64,18 62,22 C66,26 66,32 62,36 C58,40 50,42 44,40 C42,46 36,48 30,46 C24,48 16,46 12,42 Z" />
+          <path d="M28,40 L26,52 L30,52 L32,42 Z M40,40 L40,52 L44,52 L44,42 Z" />
+        </g>
+      </g>
+      <text x="840" y="125" font-family="Georgia, serif" font-size="46" letter-spacing="6" fill="#f0e6d2">SUNSET</text>
+    </svg></div>
+    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
+    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
+    <div class="frame"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
+    <div class="frame hero"><svg viewBox="0 0 1140 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"><use href="#banner"/></svg></div>
     <div class="caption">RIDE INTO THE SUNSET</div>
   </div>
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <symbol id="banner" viewBox="0 0 1140 220">
+        <defs>
+          <linearGradient id="bg2" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="#2b3a4f"/>
+            <stop offset="100%" stop-color="#1a2330"/>
+          </linearGradient>
+        </defs>
+        <rect width="1140" height="220" fill="url(#bg2)"/>
+        <g transform="translate(770, 110)">
+          <circle r="48" fill="none" stroke="#f0e6d2" stroke-width="2"/>
+          <g transform="translate(-26,-22) scale(0.9)" fill="#f0e6d2">
+            <path d="M10,40 C12,28 20,22 28,22 C30,16 36,12 42,14 C44,10 48,8 52,10 L56,6 L58,12 C62,14 64,18 62,22 C66,26 66,32 62,36 C58,40 50,42 44,40 C42,46 36,48 30,46 C24,48 16,46 12,42 Z" />
+            <path d="M28,40 L26,52 L30,52 L32,42 Z M40,40 L40,52 L44,52 L44,42 Z" />
+          </g>
+        </g>
+        <text x="840" y="125" font-family="Georgia, serif" font-size="46" letter-spacing="6" fill="#f0e6d2">SUNSET</text>
+      </symbol>
+    </defs>
+  </svg>
 </body>
 </html>
