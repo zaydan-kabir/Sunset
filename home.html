@@ -309,6 +309,12 @@
 <footer>© Sunset · WIND DOWN CLEANLY</footer>
 
 <script>
+  // play intro on every reload
+  const nav = performance.getEntriesByType('navigation')[0];
+  if (nav && nav.type === 'reload') {
+    window.location.replace('index.html');
+  }
+
   const partners = [
     { src: 'Sunset%20Logos/RuthHealth.jpeg',            name: 'Ruth Health' },
     { src: 'Sunset%20Logos/TalkHiring.png',             name: 'Talk Hiring' },
