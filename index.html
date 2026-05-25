@@ -4,214 +4,177 @@
 <meta charset="UTF-8" />
 <title>Sunset</title>
 <style>
+  :root {
+    --bg: #f5efe3;
+    --ink: #1a2330;
+  }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
   html, body {
     height: 100%;
-    background: #000;
-    font-family: Georgia, serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Didot', 'Bodoni 72', 'Georgia', serif;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    filter: grayscale(1) contrast(1.05);
+    cursor: pointer;
+  }
+
+  /* subtle paper-grain vignette for elegance */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 55%, rgba(26,35,48,0.10) 100%);
+    pointer-events: none;
+    z-index: 1;
   }
 
   .stage {
     position: relative;
-    width: min(440px, 80vmin);
-    aspect-ratio: 1;
+    width: min(720px, 86vw);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    z-index: 2;
   }
 
-  /* concentric breathing rings */
-  .ring {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 1px solid rgba(255,255,255,0.25);
-    opacity: 0;
-    animation: breathe 6s ease-in-out infinite, ringOut 1s ease-in 2.6s forwards;
-  }
-  .ring:nth-child(1) { animation-delay: 0s, 2.6s; }
-  .ring:nth-child(2) { animation-delay: 1.5s, 2.6s; }
-  .ring:nth-child(3) { animation-delay: 3.0s, 2.6s; }
-  .ring:nth-child(4) { animation-delay: 4.5s, 2.6s; }
-
-  @keyframes breathe {
-    0%   { transform: scale(0.55); opacity: 0; border-color: rgba(255,255,255,0.45); }
-    40%  { opacity: 0.5; }
-    100% { transform: scale(1.35); opacity: 0; border-color: rgba(255,255,255,0.05); }
-  }
-  @keyframes ringOut { to { opacity: 0 !important; } }
-
-  /* the white outlined circle that frames the badge — fades out when horse bursts free */
-  .frame {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.9);
-    box-shadow: 0 0 30px rgba(255,255,255,0.12) inset;
-    animation: frameOut 1.0s cubic-bezier(.6,.0,.7,.2) 2.8s forwards;
-    z-index: 6;
-  }
-  @keyframes frameOut {
-    0%   { opacity: 1; transform: scale(1); }
-    100% { opacity: 0; transform: scale(1.25); }
-  }
-
-  /* the actual logo image, clipped to a circle so it blends with the black page */
-  .logo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: url('sunsethq_logo.jpeg') center/120% no-repeat;
-    filter: drop-shadow(0 0 22px rgba(255,255,255,0.18));
-    animation: float 6s ease-in-out infinite, gallop 2.4s cubic-bezier(.4,.0,.2,1) 3.0s forwards;
-    z-index: 5;
-  }
-
-  @keyframes float {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50%      { transform: scale(1.03) translateY(-4px); }
-  }
-
-  /* horse faces right — gallop off to the right with a slight arc + bob */
-  @keyframes gallop {
-    0%   { transform: translate(0,0) scale(1) rotate(0); }
-    12%  { transform: translate(18px,-12px) scale(1.03) rotate(-3deg); }
-    30%  { transform: translate(120px,-6px)  scale(1.05) rotate(-1deg); }
-    55%  { transform: translate(380px,-22px) scale(1.0)  rotate(2deg); }
-    100% { transform: translate(150vw,-40px) scale(0.8)  rotate(5deg); opacity: 0; }
-  }
-
-  /* dust puffs left behind */
-  .dust {
+  /* top + bottom hairlines that draw out from center */
+  .rule {
     position: absolute;
     left: 50%;
-    top: 62%;
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.75);
-    opacity: 0;
-    animation: dust 1.8s ease-out 3.2s forwards;
-    z-index: 4;
+    height: 1px;
+    background: var(--ink);
+    width: 0;
+    transform: translateX(-50%);
+    animation: ruleDraw 1.6s cubic-bezier(.6,.0,.2,1) 0.3s forwards,
+               ruleOut  0.9s cubic-bezier(.6,.0,.7,.2) 4.6s forwards;
   }
-  .dust:nth-of-type(2) { animation-delay: 3.4s;  left: 48%; }
-  .dust:nth-of-type(3) { animation-delay: 3.6s;  left: 46%; }
-  .dust:nth-of-type(4) { animation-delay: 3.8s;  left: 44%; }
-  @keyframes dust {
-    0%   { opacity: 0;   transform: translate(0, 0) scale(0.4); }
-    30%  { opacity: 0.6; }
-    100% { opacity: 0;   transform: translate(-90px, -12px) scale(2.4); }
-  }
+  .rule.top    { top: -36px; }
+  .rule.bottom { bottom: -36px; }
 
-  .hint {
+  @keyframes ruleDraw { to { width: 100%; } }
+  @keyframes ruleOut  { to { opacity: 0; transform: translateX(-50%) scaleY(0); } }
+
+  /* corner ticks — small luxury detail */
+  .tick {
     position: absolute;
-    bottom: -56px;
-    left: 0; right: 0;
-    text-align: center;
-    letter-spacing: 0.35em;
-    font-size: 11px;
-    color: #fff;
+    width: 10px; height: 10px;
+    border: 1px solid var(--ink);
     opacity: 0;
-    animation: hintIn 0.8s ease 0.4s forwards, hintOut 0.6s ease 2.8s forwards;
+    animation: tickIn 0.6s ease 1.6s forwards, tickOut 0.6s ease 4.6s forwards;
   }
-  @keyframes hintIn  { to { opacity: 0.55; } }
-  @keyframes hintOut { to { opacity: 0; } }
+  .tick.tl { top: -42px; left: -10px;  border-right: 0; border-bottom: 0; }
+  .tick.tr { top: -42px; right: -10px; border-left: 0;  border-bottom: 0; }
+  .tick.bl { bottom: -42px; left: -10px;  border-right: 0; border-top: 0; }
+  .tick.br { bottom: -42px; right: -10px; border-left: 0;  border-top: 0; }
+  @keyframes tickIn  { to { opacity: 0.55; } }
+  @keyframes tickOut { to { opacity: 0; } }
 
-  .flash {
+  /* the logo lockup */
+  .logo {
+    width: 100%;
+    opacity: 0;
+    transform: scale(0.985);
+    animation: logoIn   1.4s cubic-bezier(.2,.7,.2,1) 0.9s forwards,
+               breathe  6s  ease-in-out 2.4s infinite,
+               logoOut  1.0s cubic-bezier(.6,.0,.7,.2) 4.8s forwards;
+  }
+  .logo img { width: 100%; height: auto; display: block; }
+
+  @keyframes logoIn  {
+    0%   { opacity: 0; transform: scale(0.985) translateY(6px); filter: blur(6px); }
+    100% { opacity: 1; transform: scale(1)     translateY(0);   filter: blur(0); }
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.008); }
+  }
+  @keyframes logoOut {
+    0%   { opacity: 1; transform: scale(1); filter: blur(0); }
+    100% { opacity: 0; transform: scale(1.04); filter: blur(4px); }
+  }
+
+  /* elegant vertical sweep of light across the lockup */
+  .sweep {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    mix-blend-mode: overlay;
+  }
+  .sweep::after {
+    content: "";
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 30%;
+    left: -40%;
+    background: linear-gradient(100deg,
+      transparent 0%,
+      rgba(255,255,255,0.0) 30%,
+      rgba(255,255,255,0.85) 50%,
+      rgba(255,255,255,0.0) 70%,
+      transparent 100%);
+    animation: sweep 2.4s cubic-bezier(.4,.0,.2,1) 2.6s forwards;
+    filter: blur(2px);
+  }
+  @keyframes sweep {
+    0%   { left: -40%; }
+    100% { left: 110%; }
+  }
+
+  .caption {
+    margin-top: 28px;
+    font-family: 'Didot', 'Bodoni 72', Georgia, serif;
+    font-size: 11px;
+    letter-spacing: 0.6em;
+    color: var(--ink);
+    opacity: 0;
+    text-indent: 0.6em; /* keep optical centering with letter-spacing */
+    animation: capIn 1.0s ease 2.2s forwards, capOut 0.6s ease 4.6s forwards;
+  }
+  @keyframes capIn  { to { opacity: 0.55; } }
+  @keyframes capOut { to { opacity: 0; transform: translateY(-4px); } }
+
+  /* final fade to white before redirect */
+  .veil {
     position: fixed; inset: 0;
     background: #fff;
     opacity: 0;
     pointer-events: none;
-    animation: flash 1.2s ease-in 4.6s forwards;
-    z-index: 99;
+    animation: veil 1.2s ease-in 5.4s forwards;
+    z-index: 10;
   }
-  @keyframes flash { to { opacity: 1; } }
+  @keyframes veil { to { opacity: 1; } }
 </style>
 </head>
 <body>
-  <div class="stage" id="stage">
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
+  <div class="stage">
+    <span class="rule top"></span>
+    <span class="tick tl"></span>
+    <span class="tick tr"></span>
 
-    <div class="logo" id="logo"></div>
-    <div class="frame"></div>
+    <div class="logo">
+      <img src="Sunset-logo.png" alt="Sunset" />
+      <div class="sweep"></div>
+    </div>
 
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
-    <div class="dust"></div>
+    <div class="caption">EST · RIDE INTO THE SUNSET</div>
 
-    <div class="hint">RIDING OFF…</div>
+    <span class="rule bottom"></span>
+    <span class="tick bl"></span>
+    <span class="tick br"></span>
   </div>
 
-  <div class="flash"></div>
+  <div class="veil"></div>
 
 <script>
-  function neigh() {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const t0 = ctx.currentTime;
-    const dur = 1.4;
-
-    const osc = ctx.createOscillator();
-    const oscGain = ctx.createGain();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(720, t0);
-    osc.frequency.exponentialRampToValueAtTime(620, t0 + 0.15);
-    osc.frequency.exponentialRampToValueAtTime(480, t0 + 0.55);
-    osc.frequency.exponentialRampToValueAtTime(300, t0 + dur);
-
-    const lfo = ctx.createOscillator();
-    const lfoGain = ctx.createGain();
-    lfo.frequency.value = 22;
-    lfoGain.gain.value = 35;
-    lfo.connect(lfoGain).connect(osc.frequency);
-
-    const bp = ctx.createBiquadFilter();
-    bp.type = 'bandpass'; bp.frequency.value = 900; bp.Q.value = 4;
-
-    oscGain.gain.setValueAtTime(0, t0);
-    oscGain.gain.linearRampToValueAtTime(0.18, t0 + 0.05);
-    oscGain.gain.linearRampToValueAtTime(0.22, t0 + 0.4);
-    oscGain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    osc.connect(bp).connect(oscGain).connect(ctx.destination);
-
-    const noiseBuf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
-    const data = noiseBuf.getChannelData(0);
-    for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
-    const noise = ctx.createBufferSource();
-    noise.buffer = noiseBuf;
-    const nFilt = ctx.createBiquadFilter();
-    nFilt.type = 'highpass'; nFilt.frequency.value = 1200;
-    const nGain = ctx.createGain();
-    nGain.gain.setValueAtTime(0, t0);
-    nGain.gain.linearRampToValueAtTime(0.06, t0 + 0.1);
-    nGain.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    noise.connect(nFilt).connect(nGain).connect(ctx.destination);
-
-    osc.start(t0); lfo.start(t0); noise.start(t0);
-    osc.stop(t0 + dur + 0.05);
-    lfo.stop(t0 + dur + 0.05);
-    noise.stop(t0 + dur + 0.05);
-  }
-
-  window.addEventListener('load', () => {
-    setTimeout(() => { try { neigh(); } catch(e){} }, 2400);
-    setTimeout(() => { window.location.href = 'https://sunsethq.com'; }, 5800);
-  });
-
-  document.addEventListener('click', () => {
-    window.location.href = 'https://sunsethq.com';
-  });
+  // redirect after the veil completes
+  setTimeout(() => { window.location.href = 'https://sunsethq.com'; }, 6500);
+  // click anywhere to skip
+  document.addEventListener('click', () => { window.location.href = 'https://sunsethq.com'; });
 </script>
 </body>
 </html>
