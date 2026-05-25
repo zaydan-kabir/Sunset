@@ -100,22 +100,24 @@
   .static-grid {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    gap: 18px;
+    flex-wrap: nowrap;
+    gap: 14px;
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 24px;
+    overflow-x: auto;
   }
   .static-grid .card {
-    flex: 0 0 auto;
-    width: 180px;
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: 200px;
     height: 130px;
     background: var(--card);
     border-radius: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 22px;
+    padding: 18px;
     font-family: Inter, 'Helvetica Neue', sans-serif;
     color: #4d4d4d;
     text-align: center;
@@ -250,7 +252,8 @@
   @media (max-width: 720px) {
     nav, .header-cta a.login { display: none; }
     .partner { width: 180px; height: 170px; padding: 18px; }
-    .static-grid .card { width: 140px; height: 110px; }
+    .static-grid { gap: 8px; padding: 0 12px; }
+    .static-grid .card { height: 100px; padding: 12px; }
   }
 </style>
 </head>
