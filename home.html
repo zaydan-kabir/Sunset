@@ -215,12 +215,12 @@
 
   .partner {
     flex: 0 0 auto;
-    width: 240px; height: 200px;
+    width: 200px; height: 130px;
     background: var(--card);
     border-radius: 22px;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    padding: 22px; gap: 14px;
+    padding: 14px; gap: 6px;
   }
   .partner .logo-img {
     flex: 1; width: 100%;
@@ -231,9 +231,12 @@
     max-width: 100%; max-height: 100%;
     object-fit: contain;
   }
+  /* TalkHiring asset has an opaque white background — blend it into the card */
+  .partner img.blend { mix-blend-mode: multiply; }
+
   .partner .name {
     font-family: Inter, system-ui, sans-serif;
-    font-size: 13px;
+    font-size: 11px;
     letter-spacing: 0.08em;
     color: var(--muted);
     text-transform: uppercase;
@@ -251,7 +254,7 @@
 
   @media (max-width: 720px) {
     nav, .header-cta a.login { display: none; }
-    .partner { width: 180px; height: 170px; padding: 18px; }
+    .partner { width: 160px; height: 110px; padding: 12px; }
     .static-grid { gap: 8px; padding: 0 12px; }
     .static-grid .card { height: 100px; padding: 12px; }
   }
@@ -311,7 +314,7 @@
 <script>
   const partners = [
     { src: 'Sunset%20Logos/RuthHealth.jpeg',            name: 'Ruth Health' },
-    { src: 'Sunset%20Logos/TalkHiring.png',             name: 'Talk Hiring' },
+    { src: 'Sunset%20Logos/TalkHiring.png',             name: 'Talk Hiring',  blend: true },
     { src: 'Sunset%20Logos/experify.webp',              name: 'Experify' },
     { src: 'Sunset%20Logos/mammoth.webp',               name: 'Mammoth' },
     { src: 'Sunset%20Logos/motif.webp',                 name: 'Motif' },
@@ -326,7 +329,7 @@
   const sequence = [...partners, ...partners];
   track.innerHTML = sequence.map(p => `
     <div class="partner">
-      <div class="logo-img"><img src="${p.src}" alt="${p.name}" loading="lazy"/></div>
+      <div class="logo-img"><img class="${p.blend ? 'blend' : ''}" src="${p.src}" alt="${p.name}" loading="lazy"/></div>
       <div class="name">${p.name}</div>
     </div>
   `).join('');
